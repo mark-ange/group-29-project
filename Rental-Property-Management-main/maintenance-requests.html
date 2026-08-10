@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Requests - Rental Property Management</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/maintenance-requests.css">
+    <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+    <!-- Vanta.js 3D Background -->
+    <div id="vanta-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></div>
+    
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Property Management</h1>
+                </div>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="properties.html">Properties</a>
+                    <a href="maintenance-requests.html" class="active">Maintenance</a>
+                    <a href="payments.html">Payments</a>
+                    <a href="messages.html">Messages</a>
+                </nav>
+                <div class="user-info">
+                    <span id="user-name">Not logged in</span>
+                    <button id="login-btn" class="btn btn-primary">Login</button>
+                    <button id="logout-btn" class="btn btn-secondary" style="display: none;">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <h2>Maintenance Requests</h2>
+                
+                <!-- User Role Info -->
+                <div id="role-info" class="alert alert-info" style="display: none;"></div>
+                
+                <!-- Create Request Button (for tenants) -->
+                <div class="actions">
+                    <button id="create-request-btn" class="btn btn-primary" style="display: none;">
+                        Create New Request
+                    </button>
+                </div>
+
+                <!-- Request Form Modal -->
+                <div id="request-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+                        <h3>Create Maintenance Request</h3>
+                        <form id="request-form">
+                            <div class="form-group">
+                                <label for="property-id">Property:</label>
+                                <select id="property-id" class="form-control" required>
+                                    <option value="">Select Property</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea id="description" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category:</label>
+                                <select id="category" class="form-control" required>
+                                    <option value="plumbing">Plumbing</option>
+                                    <option value="electrical">Electrical</option>
+                                    <option value="hvac">HVAC</option>
+                                    <option value="general">General</option>
+                                    <option value="appliance">Appliance</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="priority">Priority:</label>
+                                <select id="priority" class="form-control" required>
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="emergency">Emergency</option>
+                                </select>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="submit" class="btn btn-primary">Submit Request</button>
+                                <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Request List -->
+                <div class="requests-container">
+                    <div class="filters">
+                        <label for="status-filter">Filter by Status:</label>
+                        <select id="status-filter" class="form-control">
+                            <option value="all">All Requests</option>
+                            <option value="pending">Pending</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    
+                    <div class="requests-grid" id="requests-list">
+                        <div class="loading">Loading maintenance requests...</div>
+                    </div>
+                </div>
+
+                <!-- Request Detail Modal -->
+                <div id="detail-modal" class="modal">
+                    <div class="modal-content modal-lg">
+                        <span class="close-btn">&times;</span>
+                        <div id="request-detail">
+                            <!-- Detail content loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Rental Property Management System</p>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Login</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Username:</label>
+                    <input type="text" id="login-username" class="form-control" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                <div id="login-error" class="alert alert-error" style="display: none;"></div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+                </div>
+            </form>
+            <p style="margin-top: 15px;">
+                <strong>Demo Accounts:</strong><br>
+                <small>admin/admin123, manager/manager123, tenant1/tenant123, tenant2/tenant123</small>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/mockData.js"></script>
+    <script src="js/maintenance-requests.js"></script>
+    <!-- Vanta.js - 3D Animated Background -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+    <script>
+        // Initialize Vanta.js NET effect
+        window.vantaEffect = null;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            window.vantaEffect = VANTA.NET({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x0B1849,
+                backgroundColor: 0xEBEDE3,
+                points: 15.00,
+                maxDistance: 30.00,
+                spacing: 25.00
+            });
+        });
+        
+        // Prevent memory leaks
+        window.addEventListener('beforeunload', () => {
+            if (window.vantaEffect) {
+                window.vantaEffect.destroy();
+            }
+        });
+    </script>
+</body>
+</html>

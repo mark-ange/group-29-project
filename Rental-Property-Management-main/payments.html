@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments - Rental Property Management</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+    <div id="vanta-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></div>
+    <div id="app">
+        <header class="header"><div class="header-content"><div class="logo"><h1><span class="logo-icon">&#128179;</span> Property Management</h1></div><nav class="nav"><a href="index.html">Home</a><a href="properties.html">Properties</a><a href="maintenance-requests.html">Maintenance</a><a href="payments.html" class="active">Payments</a><a href="messages.html">Messages</a><a href="leases.html">Leases</a></nav><div class="user-info"><span id="user-name">Not logged in</span><button id="login-btn" class="btn btn-primary">Login</button><button id="logout-btn" class="btn btn-secondary" style="display: none;">Logout</button></div></div></header>
+        <main class="main-content"><div class="container"><h2 class="animate-fade-in">Payments</h2><div id="role-info" class="alert alert-info" style="display: none;"></div><div class="actions"><button id="create-payment-btn" class="btn btn-primary" style="display: none;"><i>&#10010;</i> Record Payment</button></div><div id="payments-list" class="animate-fade-in-up"></div></div></main>
+        <footer class="footer"><div class="container"><div class="footer-content"><div class="footer-section"><h3>Payment Management</h3><p>Track rent payments and account balances.</p></div><div class="footer-section"><h3>Quick Links</h3><ul><li><a href="index.html">Home</a></li><li><a href="properties.html">Properties</a></li><li><a href="maintenance-requests.html">Maintenance</a></li></ul></div><div class="footer-section"><h3>Demo Accounts</h3><ul><li><strong>Admin:</strong> admin / admin123</li><li><strong>Manager:</strong> manager / manager123</li><li><strong>Tenant:</strong> tenant1 / tenant123</li></ul></div></div><div class="footer-bottom"><p>&copy; 2024 Rental Property Management System.</p></div></div></footer>
+    </div>
+    <div id="payment-detail-modal" class="modal"><div class="modal-content"><span class="close-btn">&times;</span><div class="modal-body" id="payment-detail"></div></div></div>
+    <div id="payment-modal" class="modal"><div class="modal-content"><span class="close-btn">&times;</span><div class="modal-header"><h3>Record Payment</h3></div><form id="payment-form"><div class="modal-body"><div class="form-group"><label for="leaseId">Lease ID *</label><select id="leaseId" name="leaseId" class="form-control" required><option value="">Select a lease...</option></select></div><div class="form-group"><label for="amount">Amount ($) *</label><input type="number" id="amount" name="amount" class="form-control" required min="1" step="0.01"></div><div class="form-group"><label for="dueDate">Due Date *</label><input type="date" id="dueDate" name="dueDate" class="form-control" required></div><div class="form-group"><label for="paymentDate">Payment Date</label><input type="date" id="paymentDate" name="paymentDate" class="form-control"></div><div class="form-group"><label for="status">Status *</label><select id="status" name="status" class="form-control" required><option value="paid">Paid</option><option value="pending">Pending</option><option value="late">Late</option></select></div><div class="form-group"><label for="paymentMethod">Payment Method *</label><select id="paymentMethod" name="paymentMethod" class="form-control" required><option value="">Select method...</option><option value="credit_card">Credit Card</option><option value="bank_transfer">Bank Transfer</option><option value="cash">Cash</option><option value="check">Check</option></select></div><div class="form-group"><label for="transactionId">Transaction ID</label><input type="text" id="transactionId" name="transactionId" class="form-control"></div></div><div class="modal-actions"><button type="submit" class="btn btn-primary">Save Payment</button><button type="button" class="btn btn-secondary close-btn">Cancel</button></div></form></div></div>
+    <div id="login-modal" class="modal"><div class="modal-content"><span class="close-btn">&times;</span><div class="modal-header"><h3>Login</h3></div><form id="login-form"><div class="modal-body"><div class="form-group"><label for="login-username">Username</label><input type="text" id="login-username" class="form-control" required autofocus></div><div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" class="form-control" required></div><div id="login-error" class="alert alert-error" style="display: none;"></div></div><div class="modal-actions"><button type="submit" class="btn btn-primary">Login</button><button type="button" class="btn btn-secondary close-btn">Cancel</button></div></form><p style="margin-top: 1rem; text-align: center;"><strong>Demo:</strong><br><small>admin/admin123, manager/manager123, tenant1/tenant123</small></p></div></div>
+    <script src="js/mockData.js"></script>
+    <script src="js/payments.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+    <script>
+        window.vantaEffect = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            window.vantaEffect = VANTA.NET({el: "#vanta-bg", mouseControls: true, touchControls: true, gyroControls: false, minHeight: 200, minWidth: 200, scale: 1, scaleMobile: 1, color: 0x0B1849, backgroundColor: 0xEBEDE3, points: 15, maxDistance: 30, spacing: 25});
+        });
+        window.addEventListener('beforeunload', () => { if (window.vantaEffect) window.vantaEffect.destroy(); });
+    </script>
+</body>
+</html>
