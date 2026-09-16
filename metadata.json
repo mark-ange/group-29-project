@@ -1,0 +1,6 @@
+{
+  "name": "LuxeStay - Luxury Vacation Rentals & 3D Tours",
+  "description": "High-end luxury vacation rental website featuring modern minimalist editorial design, interactive 3D architectural tours, concierge, and host portal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
