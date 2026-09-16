@@ -41,14 +41,14 @@ class PropertyController extends Controller
         $data['virtual_tour_rooms'] = [];
         $data['host_name'] = $request->user()->name;
         $data['host_avatar'] = $request->user()->avatar;
-        $data['host_user_id'] = $request->user()->id;
+        $data['host_user_id'] = $request->user()->getKey();
 
         $property = Property::create($data);
 
         return response()->json([
             'success' => true,
             'message' => 'Property published successfully.',
-            'data' => new PropertyResource($property),
+            'data' => PropertyResource::make($property),
         ], 201);
     }
 
@@ -110,7 +110,7 @@ class PropertyController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => new PropertyResource($property),
+            'data' => PropertyResource::make($property),
         ]);
     }
 
@@ -119,23 +119,24 @@ class PropertyController extends Controller
         Property $property,
         BookingService $bookingService
     ): JsonResponse {
+        $validated = $request->validated();
         $pricing = $bookingService->calculatePrice(
             $property,
-            $request->check_in,
-            $request->check_out
+            $validated['check_in'],
+            $validated['check_out']
         );
 
         $available = $bookingService->isAvailable(
             $property,
-            $request->check_in,
-            $request->check_out
+            $validated['check_in'],
+            $validated['check_out']
         );
 
         return response()->json([
             'success' => true,
             'data' => array_merge($pricing, [
                 'is_available' => $available,
-                'property_id' => $property->id,
+                'property_id' => $property->getKey(),
             ]),
         ]);
     }
@@ -145,21 +146,21 @@ class PropertyController extends Controller
         Property $property,
         BookingService $bookingService
     ): JsonResponse {
-        $request->validate([
+        $validated = $request->validate([
             'check_in' => ['required', 'date'],
             'check_out' => ['required', 'date', 'after:check_in'],
         ]);
 
         $isAvailable = $bookingService->isAvailable(
             $property,
-            $request->check_in,
-            $request->check_out
+            $validated['check_in'],
+            $validated['check_out']
         );
 
         return response()->json([
             'success' => true,
             'data' => [
-                'property_id' => $property->id,
+                'property_id' => $property->getKey(),
                 'is_available' => $isAvailable,
                 'message' => $isAvailable ? 'Dates are available.' : 'Selected dates are already booked or unavailable.',
             ],
