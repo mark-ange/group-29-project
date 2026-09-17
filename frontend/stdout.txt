@@ -1,0 +1,6 @@
+
+> luxestay-frontend@0.0.0 dev
+> node --import tsx server.ts
+
+LuxeStay Luxury Vacation Platform running on http://localhost:3000
+API endpoints accessible at http://localhost:3000/api/health
