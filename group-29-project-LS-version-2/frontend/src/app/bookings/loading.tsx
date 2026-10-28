@@ -1,0 +1,1 @@
+export default function BookingsLoading() { return <main className="mx-auto min-h-[55vh] max-w-5xl animate-pulse px-5 py-14 sm:px-8" aria-busy="true"><div className="h-8 w-48 rounded bg-stone-200" /><div className="mt-8 space-y-4">{[1, 2, 3].map((item) => <div key={item} className="h-28 rounded-2xl bg-stone-200" />)}</div></main>; }

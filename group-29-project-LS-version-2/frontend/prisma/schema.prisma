@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String
+  email         String     @unique
+  passwordHash  String
+  role          String     @default("GUEST")
+  properties    Property[]
+  bookings      Booking[]
+  reviews       Review[]
+  createdAt     DateTime   @default(now())
+}
+
+model Property {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  title         String
+  description   String
+  city          String
+  country       String
+  pricePerNight Int
+  maxGuests     Int
+  bedrooms      Int
+  bathrooms     Int
+  amenities     String
+  published     Boolean        @default(false)
+  model3dUrl    String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  ownerId       String
+  owner         User           @relation(fields: [ownerId], references: [id])
+  images        PropertyImage[]
+  reviews       Review[]
+  bookings      Booking[]
+
+  @@index([published, city])
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  url        String
+  alt        String
+  kind       String
+  sortOrder  Int      @default(0)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, sortOrder])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  rating     Int
+  comment    String
+  propertyId String
+  userId     String
+  createdAt  DateTime @default(now())
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([propertyId, createdAt])
+}
+
+model Booking {
+  id            String   @id @default(cuid())
+  checkIn       DateTime
+  checkOut      DateTime
+  guests        Int
+  nights        Int
+  totalPrice    Int
+  status        String   @default("CONFIRMED")
+  createdAt     DateTime @default(now())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  propertyId    String
+  property      Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId, checkIn, checkOut])
+}

@@ -1,0 +1,6 @@
+{
+  "name": "LuxeStay - Luxury Vacation Rentals & 3D Tours",
+  "description": "Extraordinary homes with five-star everything. Airbnb Luxe standard with 300+ point inspection certification, dedicated trip designers, split map discovery, and interactive 3D spatial tours.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

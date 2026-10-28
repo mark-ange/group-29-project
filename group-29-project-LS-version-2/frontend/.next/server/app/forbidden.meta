@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/forbidden/layout,_N_T_/forbidden/page,_N_T_/forbidden"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/7aa4ed7a3f4a932db6994acbd5046838b79520bbae78db7c49bd3d2dc1e4b3e7/$/forbidden",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/forbidden/page"
+    },
+    "isFallback": false
+  }
+}
